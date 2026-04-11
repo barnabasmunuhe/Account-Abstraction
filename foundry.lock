@@ -1,0 +1,20 @@
+{
+  "lib/account-abstraction": {
+    "rev": "7af70c8993a6f42973f520ae0752386a5032abe7"
+  },
+  "lib/forge-std": {
+    "rev": "f5495c9b993bfc6e79dd52adfdcb7dac0a1da918"
+  },
+  "lib/foundry-era-contracts": {
+    "tag": {
+      "name": "0.0.3",
+      "rev": "3f99de4a37b126c5cb0466067f37be0c932167b2"
+    }
+  },
+  "lib/openzeppelin-contracts": {
+    "tag": {
+      "name": "v5.6.1",
+      "rev": "5fd1781b1454fd1ef8e722282f86f9293cacf256"
+    }
+  }
+}
