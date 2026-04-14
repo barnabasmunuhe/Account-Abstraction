@@ -3,11 +3,11 @@
 pragma solidity ^0.8.24;
 
 import {Test} from "forge-std/Test.sol";
-import {MinimalAccount} from "../src/ethereum/MinimalAccount.sol";
-import {DeployMinimalAccount} from "../script/DeployMinimalAccount.s.sol";
-import {HelperConfig} from "../script/HelperConfig.s.sol";
+import {MinimalAccount} from "../../src/ethereum/MinimalAccount.sol";
+import {DeployMinimalAccount} from "../../script/DeployMinimalAccount.s.sol";
+import {HelperConfig} from "../../script/HelperConfig.s.sol";
 import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
-import {SendPackedUserOp, PackedUserOperation, IEntryPoint} from "../script/SendPackedUserOp.s.sol";
+import {SendPackedUserOp, PackedUserOperation, IEntryPoint} from "../../script/SendPackedUserOp.s.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {MessageHashUtils} from "@openzeppelin/contracts/utils/cryptography/MessageHashUtils.sol";
 
