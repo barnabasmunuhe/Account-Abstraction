@@ -8,10 +8,13 @@ import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
 // Era imports
 import {
-    Transaction, MemoryTransactionHelper
+    Transaction,
+    MemoryTransactionHelper
 } from "lib/foundry-era-contracts/src/system-contracts/contracts/libraries/MemoryTransactionHelper.sol";
 import {BOOTLOADER_FORMAL_ADDRESS} from "lib/foundry-era-contracts/src/system-contracts/contracts/Constants.sol";
-import {ACCOUNT_VALIDATION_SUCCESS_MAGIC} from "lib/foundry-era-contracts/src/system-contracts/contracts/interfaces/IAccount.sol";
+import {
+    ACCOUNT_VALIDATION_SUCCESS_MAGIC
+} from "lib/foundry-era-contracts/src/system-contracts/contracts/interfaces/IAccount.sol";
 
 contract ZkMinimalAccountTest is Test {
     ZkMinimalAccount minimalAccount;
@@ -21,13 +24,11 @@ contract ZkMinimalAccountTest is Test {
     bytes32 constant EMPTY_BYTES32 = bytes32(0);
     address constant ANVIL_DEFAULT_ACCOUNT = 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266;
 
-
     function setUp() public {
         minimalAccount = new ZkMinimalAccount();
         minimalAccount.transferOwnership(ANVIL_DEFAULT_ACCOUNT); // Set the owner to the Anvil default Account for testing
         usdc = new ERC20Mock();
         vm.deal(address(minimalAccount), AMOUNT); // Fund the minimal account with some ETH for testing
-        
     }
 
     function testZkOwnerCanExecuteCommands() public {
@@ -65,19 +66,19 @@ contract ZkMinimalAccountTest is Test {
     /*//////////////////////////////////////////////////////////////
                                 HELPERS
     //////////////////////////////////////////////////////////////*/
-    function _signTransaction(Transaction memory transaction) internal view returns(Transaction memory) {
+    function _signTransaction(Transaction memory transaction) internal view returns (Transaction memory) {
         bytes32 unSignedTransactionHash = MemoryTransactionHelper.encodeHash(transaction);
         // Sign the data, and return it
         uint8 v;
         bytes32 r;
         bytes32 s;
-        uint256 ANVIL_DEFAULT_KEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80;//ANVIL private key
+        uint256 ANVIL_DEFAULT_KEY = 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80; //ANVIL private key
         (v, r, s) = vm.sign(ANVIL_DEFAULT_KEY, unSignedTransactionHash);
         Transaction memory signedTransaction = transaction;
-        signedTransaction.signature = abi.encodePacked(r, s, v);//getting the signature in the correct order
+        signedTransaction.signature = abi.encodePacked(r, s, v); //getting the signature in the correct order
         return signedTransaction;
-
     }
+
     function _createUnsignedTransaction(
         address from,
         uint8 transactionType,
