@@ -1,66 +1,127 @@
-## Foundry
+# ⚡ Account Abstraction (ERC-4337 + zkSync Era)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A modular Account Abstraction implementation exploring smart contract wallets, ERC-4337 execution flows, and cross-chain compatibility (Ethereum + zkSync Era).
 
-Foundry consists of:
+The main focus is building a deep understanding of **how smart accounts interact with the EntryPoint through off-chain scripts (TypeScript/JavaScript)**.
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+## 🧠 Overview
 
-https://book.getfoundry.sh/
+This project implements the **Account Abstraction (ERC-4337)** architecture using:
 
-## Usage
+- Smart Contract Accounts (Smart Wallets)
+- EntryPoint contract (course-provided base)
+- UserOperation lifecycle
+- Ethereum + zkSync Era compatibility
+- TypeScript/JavaScript interaction scripts
 
-### Build
+The goal is to go beyond deployment and understand the **full execution pipeline from off-chain construction to on-chain validation and execution**.
 
-```shell
-$ forge build
-```
+---
 
-### Test
+## 🏗️ Architecture
 
-```shell
-$ forge test
-```
+### ERC-4337 Execution Flow
 
-### Format
+1. User creates a **UserOperation**
+2. UserOperation is signed by the Smart Wallet owner
+3. Bundler submits the operation to the **EntryPoint**
+4. EntryPoint validates:
+   - Signature
+   - Nonce
+   - Gas limits
+5. Execution is forwarded to the Smart Wallet
+6. Optional Paymaster covers gas fees (gasless execution)
 
-```shell
-$ forge fmt
-```
+---
 
-### Gas Snapshots
+## 🔩 Core Components
 
-```shell
-$ forge snapshot
-```
+### 🧩 Smart Wallets
+- Custom smart contract accounts
+- Replace EOAs with programmable wallets
+- Execute transactions via EntryPoint
+- Deployed for both Ethereum and zkSync Era
 
-### Anvil
+---
 
-```shell
-$ anvil
-```
+### ⚙️ EntryPoint (Course Base)
+- Core ERC-4337 contract
+- Handles validation + execution lifecycle
+- Acts as the coordinator for all UserOperations
 
-### Deploy
+---
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
+### 📜 Scripts (TypeScript / JavaScript)
 
-### Cast
+This is the current core focus of the project.
 
-```shell
-$ cast <subcommand>
-```
+Scripts handle:
+- Building UserOperations
+- Encoding calldata
+- Signing operations
+- Sending transactions to EntryPoint
+- Simulating bundler behavior
 
-### Help
+Goal: master **off-chain interaction patterns for smart contract systems**
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+---
+
+## 🚀 Current Focus Areas
+
+### 🔹 1. Interaction Scripts (TypeScript/JavaScript)
+- Build full UserOp lifecycle scripts
+- Understand contract interaction deeply
+- Improve bundler simulation logic
+
+### 🔹 2. Paymaster Integration (Upcoming)
+- Gas sponsorship mechanisms
+- ERC-4337 Paymaster implementation
+- Enable gasless transactions
+
+### 🔹 3. Session Keys (Upcoming)
+- Temporary delegated permissions
+- Limited-scope transaction execution
+- UX-focused wallet improvements
+
+---
+
+## 🌐 Multi-Chain Support
+
+- Ethereum (ERC-4337 standard flow)
+- zkSync Era (EVM-compatible AA environment)
+
+Focus is on maintaining consistent account abstraction logic across different execution environments.
+
+---
+
+## 🧪 Tech Stack
+
+- Solidity
+- ERC-4337 (Account Abstraction standard)
+- EntryPoint (course implementation)
+- Foundry (testing & deployment)
+- TypeScript / JavaScript (interaction scripts)
+- ethers.js / viem
+- zkSync Era tooling
+
+---
+
+## 📂 Project Structure
+
+```bash
+/contracts
+  SmartWallet.sol
+  Paymaster.sol (upcoming)
+
+/scripts
+  createUserOp.ts
+  sendUserOp.ts
+  deploy.ts
+
+/test
+  SmartWallet.t.sol
+
+/lib
+  EntryPoint (course-provided)
