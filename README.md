@@ -1,110 +1,198 @@
 # ⚡ Account Abstraction (ERC-4337 + zkSync Era)
 
-A modular Account Abstraction implementation exploring smart contract wallets, ERC-4337 execution flows, and cross-chain compatibility (Ethereum + zkSync Era).
+A hands-on implementation of **Account Abstraction (ERC-4337)** using smart contract wallets, EntryPoint mechanics, and off-chain scripting.
 
-The main focus is building a deep understanding of **how smart accounts interact with the EntryPoint through off-chain scripts (TypeScript/JavaScript)**.
+This project explores how **UserOperations are constructed, signed, and executed**, replacing traditional EOAs with programmable smart accounts.
 
 ---
 
 ## 🧠 Overview
 
-This project implements the **Account Abstraction (ERC-4337)** architecture using:
+This repository covers the full **Account Abstraction lifecycle**:
 
-- Smart Contract Accounts (Smart Wallets)
-- EntryPoint contract (course-provided base)
-- UserOperation lifecycle
-- Ethereum + zkSync Era compatibility
-- TypeScript/JavaScript interaction scripts
+- Smart Contract Wallet deployment  
+- ERC-4337 EntryPoint interaction  
+- UserOperation construction & execution  
+- Off-chain scripting using TypeScript  
+- Cross-chain compatibility (Ethereum + zkSync Era)  
 
-The goal is to go beyond deployment and understand the **full execution pipeline from off-chain construction to on-chain validation and execution**.
+The focus is on the **execution flow and scripting layer**, which is critical in real-world AA systems.
 
 ---
 
-## 🏗️ Architecture
+## ⚙️ Core Concepts
 
-### ERC-4337 Execution Flow
+### 🔹 Account Abstraction (ERC-4337)
 
-1. User creates a **UserOperation**
-2. UserOperation is signed by the Smart Wallet owner
-3. Bundler submits the operation to the **EntryPoint**
+- Removes dependency on EOAs  
+- Introduces **UserOperation** instead of traditional transactions  
+- Uses **EntryPoint contract** for execution  
+- Enables gas abstraction and programmable accounts  
+
+---
+
+### 🔹 UserOperation Lifecycle
+
+1. Construct UserOperation (off-chain)  
+2. Sign with Smart Account owner  
+3. Submit to EntryPoint  
 4. EntryPoint validates:
-   - Signature
-   - Nonce
-   - Gas limits
-5. Execution is forwarded to the Smart Wallet
-6. Optional Paymaster covers gas fees (gasless execution)
+   - Signature  
+   - Nonce  
+   - Gas limits  
+5. Smart Wallet executes transaction  
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+flowchart LR
+    U[User]
+    S[TypeScript Scripts]
+    OP[UserOperation]
+    EP[EntryPoint]
+    SW[Smart Wallet]
+    EX[Execution]
+
+    U --> S
+    S --> OP
+    OP --> EP
+    EP --> SW
+    SW --> EX
+````
+
+---
+
+## 🔍 Flow Explanation
+
+* **Scripts (off-chain)** → build & sign UserOperations
+* **EntryPoint** → validates and routes execution
+* **Smart Wallet** → executes logic on-chain
 
 ---
 
 ## 🔩 Core Components
 
-### 🧩 Smart Wallets
-- Custom smart contract accounts
-- Replace EOAs with programmable wallets
-- Execute transactions via EntryPoint
-- Deployed for both Ethereum and zkSync Era
+### 🧾 Smart Contract Wallets
+
+* Replace EOAs with programmable accounts
+* Execute transactions via EntryPoint
+* Compatible with Ethereum & zkSync Era
 
 ---
 
-### ⚙️ EntryPoint (Course Base)
-- Core ERC-4337 contract
-- Handles validation + execution lifecycle
-- Acts as the coordinator for all UserOperations
+### 🧠 EntryPoint (ERC-4337 Core)
+
+* Handles:
+
+  * Validation
+  * Execution
+* Central coordination layer for UserOperations
 
 ---
 
-### 📜 Scripts (TypeScript / JavaScript)
+### 🧪 Interaction Scripts (TypeScript)
 
-This is the current core focus of the project.
+Main focus of the project.
 
 Scripts handle:
-- Building UserOperations
-- Encoding calldata
-- Signing operations
-- Sending transactions to EntryPoint
-- Simulating bundler behavior
 
-Goal: master **off-chain interaction patterns for smart contract systems**
+* Constructing UserOperations
+* Encoding calldata
+* Signing operations
+* Sending operations to EntryPoint
+* Simulating bundler behavior
 
----
-
-## 🚀 Current Focus Areas
-
-### 🔹 1. Interaction Scripts (TypeScript/JavaScript)
-- Build full UserOp lifecycle scripts
-- Understand contract interaction deeply
-- Improve bundler simulation logic
-
-### 🔹 2. Paymaster Integration (Upcoming)
-- Gas sponsorship mechanisms
-- ERC-4337 Paymaster implementation
-- Enable gasless transactions
-
-### 🔹 3. Session Keys (Upcoming)
-- Temporary delegated permissions
-- Limited-scope transaction execution
-- UX-focused wallet improvements
+> ⚠️ Most complexity in Account Abstraction lives off-chain — this layer is critical.
 
 ---
 
-## 🌐 Multi-Chain Support
+## 🚧 Current Work (Active Development)
 
-- Ethereum (ERC-4337 standard flow)
-- zkSync Era (EVM-compatible AA environment)
+### 🔹 zkSync Era Deployment Challenge
 
-Focus is on maintaining consistent account abstraction logic across different execution environments.
+Deploying `ZkMinimal.sol` using **TypeScript scripts** due to:
+
+* Limitations with Foundry scripting on zkSync Era
+
+---
+
+### 🔹 In Progress
+
+* Custom deployment scripts (TypeScript)
+* Encryption script for private key handling
+* Sending AA transaction flow (`sendUserOp`)
+* zkSync-specific execution understanding
+
+---
+
+## ▶️ Script Usage
+
+### Install Dependencies
+
+```bash
+yarn install
+```
+
+### Compile Contracts
+
+```bash
+forge build
+```
+
+### Deploy Contracts (Foundry)
+
+```bash
+forge script script/Deploy.s.sol \
+  --rpc-url $RPC_URL \
+  --private-key $PRIVATE_KEY \
+  --broadcast
+```
+
+### Deploy via TypeScript (zkSync-compatible)
+
+```bash
+yarn deploy
+# or
+npx ts-node typescript-scripts/deploy.ts
+```
+
+### Create UserOperation
+
+```bash
+npx ts-node typescript-scripts/createUserOp.ts
+```
+
+### Send UserOperation
+
+```bash
+npx ts-node typescript-scripts/sendUserOp.ts
+```
+
+### Encrypt Private Key
+
+```bash
+npx ts-node typescript-scripts/EncryptKey.ts
+```
+
+---
+
+## 🌐 Supported Networks
+
+* Ethereum (ERC-4337)
+* zkSync Era
 
 ---
 
 ## 🧪 Tech Stack
 
-- Solidity
-- ERC-4337 (Account Abstraction standard)
-- EntryPoint (course implementation)
-- Foundry (testing & deployment)
-- TypeScript / JavaScript (interaction scripts)
-- ethers.js / viem
-- zkSync Era tooling
+* Solidity
+* ERC-4337
+* Foundry
+* TypeScript / JavaScript
+* ethers.js / viem
+* zkSync SDK
 
 ---
 
@@ -112,16 +200,71 @@ Focus is on maintaining consistent account abstraction logic across different ex
 
 ```bash
 /contracts
-  SmartWallet.sol
-  Paymaster.sol (upcoming)
+  ├── SmartWallet.sol
+  ├── ZkMinimal.sol
+  └── (future) Paymaster.sol
 
-/scripts
-  createUserOp.ts
-  sendUserOp.ts
-  deploy.ts
+/script
+  ├── Deploy.s.sol
+  ├── Interactions.s.sol
+
+/typescript-scripts
+  ├── deploy.ts
+  ├── createUserOp.ts
+  ├── sendUserOp.ts
+  ├── EncryptKey.ts
 
 /test
-  SmartWallet.t.sol
+  ├── SmartWallet.t.sol
 
 /lib
-  EntryPoint (course-provided)
+  └── EntryPoint
+```
+
+---
+
+## 📌 Key Learnings
+
+* ERC-4337 architecture
+* Full UserOperation lifecycle
+* EntryPoint validation and execution
+* Importance of off-chain infrastructure
+* zkSync vs Ethereum differences
+* Smart wallet design patterns
+
+---
+
+## 🧭 Roadmap
+
+* [ ] Paymaster (gas sponsorship)
+* [ ] Session Keys (delegated permissions)
+* [ ] Bundler simulation improvements
+* [ ] zkSync deployment pipeline
+* [ ] Optional frontend
+
+---
+
+## 💡 Purpose
+
+To build a solid engineering understanding of:
+
+* Smart contract wallets
+* Gas abstraction
+* Modular account systems
+* Off-chain + on-chain interaction
+
+---
+
+## 📎 Notes
+
+This project is part of a deeper exploration into:
+
+* Account Abstraction
+* Smart Wallet Infrastructure
+* zkSync ecosystem
+
+Ongoing improvements will focus on scripting, deployment, and architecture.
+
+```
+That’s what makes it hit *professional level*.
+```
